@@ -1,0 +1,42 @@
+{
+  "policy_version": "1.0",
+  "country_filter": null,
+  "country_policy": "all_countries_retained; report identified_customer_cohort_separately",
+  "deduplicate": "exact_original_eight_columns_keep_first; assumption_with_value_sensitivity",
+  "invoice_timestamp": "latest_valid_line_timestamp_from_raw_invoice",
+  "quarantine_invoice_if": ["multiple_known_customer_ids", "multiple_countries", "timestamps_cross_calendar_dates"],
+  "excluded_stock_codes_case_insensitive": {
+    "POST": "postage",
+    "DOT": "dotcom_postage",
+    "M": "manual_non_item_entry",
+    "C2": "carriage",
+    "D": "discount",
+    "S": "samples",
+    "BANK CHARGES": "bank_charges",
+    "AMAZONFEE": "platform_fee",
+    "CRUK": "commission",
+    "B": "bad_debt_adjustment",
+    "PADS": "ancillary_nominal_price_cushion_pads"
+  },
+  "excluded_stock_prefixes_case_insensitive": ["GIFT_"],
+  "reviewed_merchandise_stock_codes": ["DCGSSGIRL", "DCGSSBOY", "DCGS0003", "DCGS0004", "DCGS0069", "DCGS0070", "DCGS0076"],
+  "standard_merchandise_pattern": "\\d{5}[A-Za-z]*",
+  "unreviewed_stock_codes": "quarantine_for_manual_review",
+  "missing_customer_id": "retain_global_basket; exclude_entire_nonfully_identified_invoice_from_rfm",
+  "missing_description": "retain_item_key; no_future_backfill; train_catalog_or_code_fallback",
+  "description_label": "train_only_most_distinct_invoices; lexical_tie_break",
+  "returns": "preserve_excluded_ledger; do_not_match_future_returns_to_delete_past_purchases",
+  "monetary": "gross_valid_merchandise_purchases_before_returns_excluding_non_merchandise",
+  "money_scale": 1000000,
+  "outliers": "retain_positive_merchandise_values; no_percentile_cap_or_wholesale_exclusion",
+  "single_item_baskets": "retain_in_support_denominator",
+  "rare_products": "retain_all_train_products; no_frequency_filter",
+  "time_split": {
+    "train_start": "2010-12-01T00:00:00",
+    "train_end_exclusive": "2011-08-01T00:00:00",
+    "validation_end_exclusive": "2011-10-01T00:00:00",
+    "test_end_exclusive": "2011-12-10T00:00:00"
+  },
+  "rfm_reference_date": "2011-08-01T00:00:00",
+  "rfm_feature_transform": "log1p_R_F_M_then_train_population_standardization"
+}

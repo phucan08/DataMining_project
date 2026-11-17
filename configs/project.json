@@ -1,0 +1,85 @@
+{
+  "project_title": "Mining E-commerce Purchasing Behavior Using Association Rules and Customer Segmentation",
+  "status": "final_test_evaluated_frozen_models_report_content_completed_submission_pending",
+  "dataset": {
+    "uci_id": 352,
+    "raw_path": "data/raw/Online Retail.xlsx",
+    "country_filter": null,
+    "country_filter_status": "all_countries_retained_after_quality_review",
+    "cleaning_policy_path": "configs/cleaning_policy.json",
+    "prepared_manifest_path": "data/processed/prepared_manifest.json"
+  },
+  "time_split": {
+    "status": "calendar_boundaries_selected_before_model_experiments",
+    "train_start": "2010-12-01T00:00:00",
+    "train_end_exclusive": "2011-08-01T00:00:00",
+    "validation_end_exclusive": "2011-10-01T00:00:00",
+    "test_end_exclusive": "2011-12-10T00:00:00"
+  },
+  "rfm": {
+    "monetary_policy": "gross_valid_merchandise_purchases_before_returns_excluding_non_merchandise",
+    "frequency_unit": "distinct_valid_purchase_invoice",
+    "reference_date": "2011-08-01T00:00:00",
+    "transformation": "log1p_R_F_M_then_train_population_standardization",
+    "parameters_path": "data/processed/rfm_transform.json"
+  },
+  "association_rules": {
+    "status": "selected_on_validation",
+    "algorithms": [
+      "apriori",
+      "fpgrowth"
+    ],
+    "candidate_min_support": [
+      0.01,
+      0.02,
+      0.05
+    ],
+    "candidate_max_len": [
+      2,
+      3
+    ],
+    "selected_parameters": {
+      "min_support": 0.01,
+      "min_confidence": 0.3,
+      "min_lift": 1.1,
+      "maximum_reported_itemset_length": 2,
+      "minimum_train_count": 111,
+      "rule_count": 738
+    },
+    "engine": "Weka 3.8.7 FPGrowth",
+    "selected_rules_path": "results/tables/models/selected_global_rules.csv",
+    "benchmark_note": "Full-train Apriori timed out at 1%/2%; matched nontrivial checks use fixed 500-invoice train subset"
+  },
+  "clustering": {
+    "algorithm": "KMeans",
+    "candidate_k": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "random_state": 42,
+    "n_init": 20,
+    "selected_k": 2,
+    "engine": "Weka 3.8.7 SimpleKMeans",
+    "selection_scope": "train_internal_silhouette_stability_size",
+    "model_path": "results/models/selected_weka_kmeans.model",
+    "metadata_path": "results/models/selected_kmeans_metadata.json"
+  },
+  "evaluation": {
+    "validation_used_for_selection": true,
+    "final_test_scored": true,
+    "final_test_next_action": "no_further_model_selection_on_used_test; finalize_submission_documents_and_slides",
+    "freeze_lock_path": "results/models/final_evaluation_lock.json",
+    "final_protocol_path": "configs/final_evaluation_protocol.json",
+    "receipt_path": "results/tables/final_test/evaluation_receipt.json",
+    "report_path": "docs/final_evaluation_report.md",
+    "all_baskets_hit_rate_at_5": 0.08836581130619332,
+    "all_baskets_popularity_hit_rate_at_5": 0.01736446073702489,
+    "same_cohort_global_hit_rate_at_5": 0.08801341156747695,
+    "same_cohort_segment_hit_rate_at_5": 0.08857222687901649
+  }
+}

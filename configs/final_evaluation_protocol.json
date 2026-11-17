@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "declared_before_final_test_scoring": true,
+  "training_policy": "no_refitting; keep_train_rules_train_rfm_scaler_and_train_customer_segments",
+  "test_interval": "2011-10-01 inclusive to 2011-12-10 exclusive",
+  "mask_seed": 42,
+  "recommendation_k": 5,
+  "masking": "same_sha256_invoice_single_item_mask_as_validation; baskets_with_at_least_two_distinct_products; unseen_targets_retained",
+  "all_basket_comparison": "frozen_738_global_rules_vs_all_train_popularity; same_candidates_and_fallback",
+  "identified_cohort_comparison": "train_profile_customers_only; frozen_global_identified_rules_vs_frozen_segment_rules_vs_identified_train_popularity; same_baskets_targets_candidates_and_fallback",
+  "new_customer_policy": "no_invented_segment; report_global_rule_performance_for_new_identified_customers_and_missing_ID_separately",
+  "metrics": ["hit_rate_at_5", "recall_at_5", "precision_at_5_fixed_denominator", "rule_coverage", "zero_rule_fallback_rate", "short_recommendation_rate"],
+  "primary_contrast": "all_baskets/global_rules minus popularity",
+  "secondary_contrast": "train_profile_customers/segment_rules minus global_identified_rules",
+  "uncertainty": {
+    "method": "paired_cluster_percentile_bootstrap_of_basket_weighted_hit_rate",
+    "cluster_unit": "CustomerID_when_present; separate_InvoiceNo_for_missing_ID",
+    "replicates": 2000,
+    "seed": 20261118,
+    "confidence_level": 0.95,
+    "limitations": "conditional_on_frozen_models_and_period; guest_invoices_assumed_independent; nominal_intervals_without_multiple_comparison_adjustment"
+  },
+  "one_time_policy": "write_frozen_source_hashes_before_scoring; subsequent_calls_verify_and_return_saved_results; refuse_changed_sources_or_outputs"
+}

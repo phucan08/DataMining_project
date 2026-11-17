@@ -1,0 +1,32 @@
+{
+  "train": {
+    "format": "project_coo_numpy_v1_not_scipy_save_npz",
+    "rows": 11044,
+    "columns": 3564,
+    "nonzero_entries": 272890,
+    "unknown_train_product_pairs": 0,
+    "unknown_train_product_ids": 0,
+    "rows_with_no_known_train_product": 0,
+    "dense_boolean_bytes_estimate": 39360816
+  },
+  "validation": {
+    "format": "project_coo_numpy_v1_not_scipy_save_npz",
+    "rows": 3157,
+    "columns": 3564,
+    "nonzero_entries": 77821,
+    "unknown_train_product_pairs": 4345,
+    "unknown_train_product_ids": 166,
+    "rows_with_no_known_train_product": 26,
+    "dense_boolean_bytes_estimate": 11251548
+  },
+  "test": {
+    "format": "project_coo_numpy_v1_not_scipy_save_npz",
+    "rows": 5572,
+    "columns": 3564,
+    "nonzero_entries": 141570,
+    "unknown_train_product_pairs": 20663,
+    "unknown_train_product_ids": 335,
+    "rows_with_no_known_train_product": 143,
+    "dense_boolean_bytes_estimate": 19858608
+  }
+}

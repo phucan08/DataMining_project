@@ -1,0 +1,45 @@
+{
+  "protocol_version": "1.0",
+  "declared_before_model_results": true,
+  "engine": "installed_weka_3.8.7_via_java_bridge",
+  "rules": {
+    "requested_min_support_grid": [0.01, 0.02, 0.05],
+    "reported_max_itemset_length_grid": [2, 3],
+    "confidence_grid": [0.3, 0.5, 0.7],
+    "minimum_lift": 1.1,
+    "minimum_absolute_count": 20,
+    "benchmark_repeats": 3,
+    "per_fit_wall_timeout_seconds": 45,
+    "timeout_policy": "record_timeout; skip_remaining_repeats_at_that_support; do_not_use_partial_rules",
+    "paired_resource_fallback": "same_500_train_invoices; numpy_default_rng_seed42_without_replacement; supports_0.02_0.05; three_repeats_alternating_order",
+    "benchmark_scope": "same_train_rows; positive_items_only; both_algorithms_mine_unbounded_itemset_length_then_report_length_le_3; fit_plus_rule_generation",
+    "count_threshold": "ceil(requested_min_support * n_transactions)",
+    "weka_support_alignment": "effective_fraction=(required_count-0.25)/n; independently_check_all_retained_rule_counts",
+    "validation_task": "deterministic_single_item_masked_basket_completion; all_products_can_be_hidden_including_unseen_products",
+    "completion_seed": 42,
+    "recommendation_k": 5,
+    "ranking": "max_train_confidence_then_lift_then_count_per_item; train_popularity_fill; exclude_observed_products",
+    "selection": "highest_validation_HitRate_at_5; tie_fewer_rules_then_shorter_max_len_then_higher_support_then_higher_confidence",
+    "validation_is_used_for_selection": true
+  },
+  "clustering": {
+    "k_grid": [2, 3, 4, 5, 6, 7, 8],
+    "base_seeds": [42, 43, 44, 45, 46],
+    "starts_per_seed": 20,
+    "initialization": "weka_kmeans_plus_plus",
+    "max_iterations": 300,
+    "distance": "euclidean_on_train_log_z_features; Weka_internal_normalization_disabled",
+    "minimum_cluster_fraction": 0.03,
+    "minimum_mean_pairwise_ARI": 0.8,
+    "selection": "highest_mean_full_train_silhouette_among_eligible_k; within_0.005_choose_smaller_k",
+    "frozen_assignment_seed": 42,
+    "validation_outcomes_not_used_to_choose_k": true
+  },
+  "segment_rules": {
+    "engine": "weka_fpgrowth_bounded_at_3",
+    "support_and_confidence": "reuse_selected_global_rule_parameters",
+    "minimum_absolute_count": 20,
+    "comparison_cohort": "train_customer_profiles_only_for_both_training_and_validation; report_guests_and_new_customers_separately"
+  },
+  "final_test_scoring": "reserved_for_later_frozen_final_evaluation"
+}
